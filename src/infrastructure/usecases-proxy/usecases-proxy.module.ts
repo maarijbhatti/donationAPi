@@ -53,12 +53,12 @@ export class UsecasesProxyModule {
             config: EnvironmentConfigService,
             availableBalanceRepo: DatabaseAvailableBalanceRepository,
             bcryptService: BcryptService,
-          ) => new UseCaseProxy(new LoginUseCases(logger, jwtTokenService, config, availableBalanceRepo, bcryptService)),
+          ) => new UseCaseProxy(new LoginUseCases(logger, jwtTokenService, config, null, bcryptService)),
         },
         {
           inject: [DatabaseAvailableBalanceRepository],
           provide: UsecasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY,
-          useFactory: (availableBalanceRepo: DatabaseAvailableBalanceRepository) => new UseCaseProxy(new IsAuthenticatedUseCases(availableBalanceRepo)),
+          useFactory: (availableBalanceRepo: DatabaseAvailableBalanceRepository) => new UseCaseProxy(new IsAuthenticatedUseCases(null)),
         },
         {
           inject: [],

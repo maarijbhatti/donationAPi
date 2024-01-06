@@ -2,14 +2,14 @@ import { IBcryptService } from '../../domain/adapters/bcrypt.interface';
 import { IJwtService, IJwtServicePayload } from '../../domain/adapters/jwt.interface';
 import { JWTConfig } from '../../domain/config/jwt.interface';
 import { ILogger } from '../../domain/logger/logger.interface';
-import { UserRepository } from '../../domain/repositories/availableBalanceRepository.interface';
+import { DonnerRepository } from '../../domain/repositories/donnerRepository.interface';
 
 export class LoginUseCases {
   constructor(
     private readonly logger: ILogger,
     private readonly jwtTokenService: IJwtService,
     private readonly jwtConfig: JWTConfig,
-    private readonly userRepository: UserRepository,
+    private readonly userRepository: DonnerRepository,
     private readonly bcryptService: IBcryptService,
   ) { }
 
@@ -38,12 +38,12 @@ export class LoginUseCases {
     if (!user) {
       return null;
     }
-    const match = await this.bcryptService.compare(pass, user.password);
-    if (user && match) {
-      await this.updateLoginTime(user.username);
-      const { password, ...result } = user;
-      return result;
-    }
+    // const match = await this.bcryptService.compare(pass, user.password);
+    // if (user && match) {
+    //   await this.updateLoginTime(user.username);
+    //   const { password, ...result } = user;
+    //   return result;
+    // }
     return null;
   }
 
@@ -56,12 +56,12 @@ export class LoginUseCases {
   }
 
   async updateLoginTime(username: string) {
-    await this.userRepository.updateLastLogin(username);
+    //await this.userRepository.updateLastLogin(username);
   }
 
   async setCurrentRefreshToken(refreshToken: string, username: string) {
     const currentHashedRefreshToken = await this.bcryptService.hash(refreshToken);
-    await this.userRepository.updateRefreshToken(username, currentHashedRefreshToken);
+    //await this.userRepository.updateRefreshToken(username, currentHashedRefreshToken);
   }
 
   async getUserIfRefreshTokenMatches(refreshToken: string, username: string) {
@@ -70,10 +70,10 @@ export class LoginUseCases {
       return null;
     }
 
-    const isRefreshTokenMatching = await this.bcryptService.compare(refreshToken, user.hashRefreshToken);
-    if (isRefreshTokenMatching) {
-      return user;
-    }
+    // const isRefreshTokenMatching = await this.bcryptService.compare(refreshToken, user.hashRefreshToken);
+    // if (isRefreshTokenMatching) {
+    //   return user;
+    // }
 
     return null;
   }

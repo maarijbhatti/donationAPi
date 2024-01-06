@@ -1,12 +1,12 @@
-import { UserM, UserWithoutPassword } from '../../domain/model/availableBalance';
-import { UserRepository } from '../../domain/repositories/availableBalanceRepository.interface';
+import { DonnerM } from '../../domain/model/donner';
+import { DonnerRepository } from '../../domain/repositories/donnerRepository.interface';
 
 export class IsAuthenticatedUseCases {
-  constructor(private readonly adminUserRepo: UserRepository) { }
+  constructor(private readonly adminUserRepo: DonnerRepository) { }
 
-  async execute(username: string): Promise<UserWithoutPassword> {
-    const user: UserM = await this.adminUserRepo.getUserByUsername(username);
-    const { password, ...info } = user;
-    return info;
+  async execute(username: string): Promise<any> {
+    const user: DonnerM = await this.adminUserRepo.getUserByUsername(username);
+    const { name } = user;
+    return user;
   }
 }

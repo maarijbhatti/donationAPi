@@ -1,5 +1,5 @@
 export class DonnerM {
     id: number;
-    name: number;
+    name: string;
     phonenumber: string;
 }
